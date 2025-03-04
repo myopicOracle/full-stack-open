@@ -1,45 +1,34 @@
 import { useState } from 'react'
 import './App.css'
 
-const Header = ({ title }) => {
-  return (
-    <h1>{title}</h1>
-  )
-}
+const Header = ({ title }) => <h1>{title}</h1>
 
-const Button = ({ text, onClick }) => {
-  return (
-    <button onClick={onClick}>{text}</button>
-  )
-}
+const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>
+
+const Rating = ({ text, rating }) => <p>{text} {rating}</p>
 
 function App() {
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-
-  const handleClickGood = () => {
-    setGood(good + 1)
-  }
-
-  const handleClickNeutral = () => {
-    setNeutral(neutral + 1)
-  }
-
-  const handleClickBad = () => {
-    setBad(bad + 1)
-  }
+  const [rating, setRating] = useState({ 
+    good: 0, 
+    neutral: 0, 
+    bad: 0 
+  })
+  // console.log(rating.good, rating.neutral, rating.bad, rating, setRating)
 
   return (
     <>
       <Header title='give feedback' />
-        <Button text='good' onClick={handleClickGood} />
-        <Button text='neutral' onClick={handleClickNeutral} />
-        <Button text='bad' onClick={handleClickBad} />
+        {/* Remember that when changing state that is OBJECT, can't just change 1 when using setState() */}
+        <Button text='good' onClick={() => setRating({ ...rating, good: rating.good + 1 })} />
+        <Button text='neutral' onClick={() => setRating({ ...rating, neutral: rating.neutral + 1 })} />
+        <Button text='bad' onClick={() => setRating({ ...rating, bad: rating.bad + 1 })} />
+            {/* {console.log(rating.good, rating.neutral, rating.bad, rating, setRating)} */}
+
       <Header title='statistics' />
-        <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
+        <Rating text='good' rating={rating.good} />
+        <Rating text='neutral' rating={rating.neutral} />
+        <Rating text='bad' rating={rating.bad} />
+            {/* {console.log(rating.good, rating.neutral, rating.bad, rating, setRating)} */}
     </>
   )
 }
