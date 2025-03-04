@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import './App.css'
+import Statistics from './Statistics'
 
 const Header = ({ title }) => <h1>{title}</h1>
 
 const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>
-
-const Rating = ({ text, rating }) => <p>{text} {rating}</p>
 
 function App() {
   const [score, setScore] = useState(0)
@@ -37,15 +36,9 @@ function App() {
           setRating({ ...rating, bad: rating.bad + 1 });
           setScore(score - 1)
           }} />
-            {/* {console.log(rating.good, rating.neutral, rating.bad, rating, setRating)} */}
 
       <Header title='statistics' />
-        <Rating text='good' rating={rating.good} />
-        <Rating text='neutral' rating={rating.neutral} />
-        <Rating text='bad' rating={rating.bad} />
-        <Rating text='all' rating={all} />
-        <Rating text='average' rating={average} />
-        <Rating text='positive' rating={positive} />
+        <Statistics rating={rating} all={all} average={average} positive={positive} />
             {/* {console.log(rating.good, rating.neutral, rating.bad, rating, setRating)} */}
     </>
   )
