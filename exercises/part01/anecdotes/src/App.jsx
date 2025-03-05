@@ -1,8 +1,10 @@
 import { useState } from 'react'
 
 const App = () => {
-  const [renderCount, setRenderCount] = useState(0)
-    console.log("We have now rendered ", renderCount, " times, Make sure Math.random() isn't 'sticking' to a number.")
+    console.log("Ladies and gentlemen, we have begun a rerender...") // *LOG*
+
+  const [renderCount, setRenderCount] = useState(1)
+    console.log("We have now rendered ", renderCount, " times, Make sure Math.random() isn't 'sticking' to a number.") // *LOG*
 
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -14,28 +16,48 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+  
+  const shallowCopy = [ ...anecdotes ]
+  
+  const [anecdote, setAnecdote] = useState(anecdotes[0])
+  
+  const [ objectArray, setObjectArray ] = useState( () =>
+    shallowCopy.map( (item, index) => {
+      return { id: index, anecdote: item, votes: 0 }
+    })
+  )
+    console.log("The last state of the objectArray object was: ", objectArray)
+  
+  const votes = objectArray.find(item => item.anecdote === anecdote)?.votes
+    
+  const handleClickNext = () => {
 
-    console.log("We're rendering...") // *LOG*
-   
-  const [selected, setSelected] = useState(0)
-    console.log("The last state of the selection index was: ", selected)
+    const randomIndex = Math.ceil(Math.random() * objectArray.length) - 1
+      console.log("The new random number is: ", randomIndex) // *LOG*
 
-  const index = Math.ceil(Math.random() * anecdotes.length) - 1
-    console.log("The new random number is: ", index) // *LOG*
+    setAnecdote(anecdotes[randomIndex])
 
-  const handleClick = () => {
-      console.log("The event listener worked, this is inside the handleClick() handler") // *LOG*
-    setSelected(index)
-      console.log("The new state after setSelected() inside the event handler function is: ", selected) // *LOG*
-      console.log("The setSelected quote is: ", anecdotes[index]) // *LOG*
-    setRenderCount(renderCount + 1)
+    setRenderCount(renderCount + 1) // this is not necessary for the App, purely for debugging randomIndex / Math.random()
+      console.log("The Next button event listener worked and we have finished evaluating this event handler fn") // *LOG*
+  }
+
+  const handleClickVote = () => {
+    const updatedObjectArray = objectArray.map((item) => {
+      return (
+        item.anecdote === anecdote ? { ...item, votes: item.votes + 1 } : item
+      )
+    })
+    setObjectArray(updatedObjectArray)
+      console.log("The number of votes for { ", anecdote, " } is now [", votes, "]") // *LOG*
+      console.log("The Vote button event listener worked, we've now evaluated the event handler fn") // *LOG*
   }
 
   return (
     <div>
-      {anecdotes[selected]}
-        {console.log("The selected return quote is: ", anecdotes[selected])} {/* *LOG* */}
-      <button onClick={handleClick}>next anecdote</button>
+      <h2><em>{anecdote}</em></h2>
+      <h3>has {votes} votes</h3>
+      <button onClick={handleClickVote}>vote</button>
+      <button onClick={handleClickNext}>next anecdote</button>
     </div>
   )
 
