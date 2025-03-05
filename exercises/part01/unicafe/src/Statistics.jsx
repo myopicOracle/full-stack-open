@@ -4,12 +4,28 @@ const Statistics = ({ rating, all, average, positive }) => {
   if (all) {
     return (
       <>
-        <StatisticLine text="good" rating={rating.good} />
-        <StatisticLine text="neutral" rating={rating.neutral} />
-        <StatisticLine text="bad" rating={rating.bad} />
-        <StatisticLine text="all" rating={all} />
-        <StatisticLine text="average" rating={average} />
-        <StatisticLine text="positive" rating={positive} />
+        <table>
+          <th>
+            <tr>
+              <td><StatisticLine text="good" rating={rating.good} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="neutral" rating={rating.neutral} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="bad" rating={rating.bad} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="all" rating={all} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="average" rating={average} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="positive" rating={positive} /></td>
+            </tr>
+          </th>
+        </table>
         {/* {console.log(rating.good, rating.neutral, rating.bad, rating, setStatisticLine)} */}
       </>
     );

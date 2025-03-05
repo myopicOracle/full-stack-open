@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./App.css";
-import Statistics from "./Statistics";
+import ProjectName from "./ProjectName"
+import Header from "./Header"
 import Button from "./Button";
-
-const Header = ({ title }) => <h1>{title}</h1>;
+import Statistics from "./Statistics";
 
 function App() {
   const [score, setScore] = useState(0);
@@ -21,6 +21,7 @@ function App() {
 
   return (
     <>
+      <ProjectName />
       <Header title="give feedback" />
       {/* Remember that when changing state that is OBJECT, can't just change 1 when using setState() */}
       <Button
