@@ -1,10 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 import Statistics from "./Statistics";
+import Button from "./Button";
 
 const Header = ({ title }) => <h1>{title}</h1>;
-
-const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>;
 
 function App() {
   const [score, setScore] = useState(0);

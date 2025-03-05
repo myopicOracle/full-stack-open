@@ -1,20 +1,16 @@
-const Rating = ({ text, rating }) => (
-  <p>
-    {text} {rating}
-  </p>
-);
+import StatisticLine from "./StatisticLine";
 
 const Statistics = ({ rating, all, average, positive }) => {
   if (all) {
     return (
       <>
-        <Rating text="good" rating={rating.good} />
-        <Rating text="neutral" rating={rating.neutral} />
-        <Rating text="bad" rating={rating.bad} />
-        <Rating text="all" rating={all} />
-        <Rating text="average" rating={average} />
-        <Rating text="positive" rating={positive} />
-        {/* {console.log(rating.good, rating.neutral, rating.bad, rating, setRating)} */}
+        <StatisticLine text="good" rating={rating.good} />
+        <StatisticLine text="neutral" rating={rating.neutral} />
+        <StatisticLine text="bad" rating={rating.bad} />
+        <StatisticLine text="all" rating={all} />
+        <StatisticLine text="average" rating={average} />
+        <StatisticLine text="positive" rating={positive} />
+        {/* {console.log(rating.good, rating.neutral, rating.bad, rating, setStatisticLine)} */}
       </>
     );
   } else {
