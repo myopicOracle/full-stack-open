@@ -1,8 +1,8 @@
 const Numbers = ({ persons }) => {
   return (
     <ul>
-      {persons.map((person, index) => (
-        <li key={index}>{person.name}{person.phone ? " - " + person.phone : ""}</li>
+      {persons.map((person) => (
+        <li key={person.id}>{person.name}{person.number ? " - " + person.number : ""}</li>
       ))}
     </ul>
   )
