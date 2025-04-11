@@ -9,13 +9,19 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setPersons((prevPerson) => ([
-      ...prevPerson,
-      {
-        name: newName
-      }
-    ]))
-    setNewName('')
+    // persons.includes(() => newName)
+    // persons.every((person) => person.name !== newName)
+    newName === 'Arto Hellas'
+      ? window.alert(`Arto Hellas is already added to phonebook`)
+      : persons.some((person) => person.name === newName)
+      ? window.alert(`${newName} is already added to phonebook`)
+      : (setPersons((prevPerson) => ([
+          ...prevPerson,
+          {
+            name: newName
+          }
+        ])))
+      setNewName('')
   }
 
   const handleInput = (e) => {
