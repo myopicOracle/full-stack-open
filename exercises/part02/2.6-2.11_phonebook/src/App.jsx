@@ -1,20 +1,32 @@
-import { useState } from "react";
-import Numbers from "./Numbers";
-import Search from "./Search";
-import Form from "./Form";
-import Debug from "./Debug";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Numbers from "./components/Numbers";
+import Search from "./components/Search";
+import Form from "./components/Form";
+import Debug from "./components/Debug";
 
 const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [displayNames, setDisplayNames] = useState(persons);
   const [searchInput, setSearchInput] = useState("");
+
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then((response) => {
+        console.log('request successful')
+        console.log(response)
+        setPersons(response.data)
+        setDisplayNames(response.data)
+      })
+  }, [])
+
+  console.log('db.json retrieved ', persons.length, 'entries');
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,7 +79,7 @@ const App = () => {
 
   return (
     <div>
-      <Search handleSearch={handleSearch} />
+      <Search searchInput={searchInput} handleSearch={handleSearch} />
       <h2>Phonebook</h2>
       <Form
         handleSubmit={handleSubmit}
