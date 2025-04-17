@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
+import serverActions from "./components/AxiosFn";
 import Numbers from "./components/Numbers";
 import Search from "./components/Search";
 import Form from "./components/Form";
@@ -15,8 +16,8 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    serverActions
+      .getNotesFromServer()
       .then((response) => {
         console.log('request successful')
         console.log(response)
@@ -42,9 +43,21 @@ const App = () => {
     });
   }
 
+  // serverActions
+  //   .deleteNote("ec6d")
+  //   .then(response => console.log(response.data))
+  //   .catch(error => console.log(error))
+
+
   const addNoteServer = () => {
-    axios
-      .post('http://localhost:3001/persons')
+    const newNoteObj = {
+      // id: let browser auto-generate this
+      name: newName,
+      number: newPhone, 
+    }
+
+    serverActions
+      .createNote(newNoteObj)
       .then((response) => {
         console.log(response.data)
         setPersons((prev) => prev.concat(response.data))
