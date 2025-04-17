@@ -1,11 +1,16 @@
-const Numbers = ({ persons }) => {
+const Numbers = ({ persons, deleteNote }) => {
   return (
     <ul>
       {persons.map((person) => (
-        <li key={person.id}>{person.name}{person.number ? " - " + person.number : ""}</li>
+        <li key={person.id}>
+          {person.name}
+          {person.number ? " - " + person.number : ""}
+          <button onClick={() => deleteNote(person.id)}>Delete</button>
+          {/* <button onClick={deleteNote}>Delete</button> */}
+        </li>
       ))}
     </ul>
-  )
-}
+  );
+};
 
-export default Numbers
+export default Numbers;

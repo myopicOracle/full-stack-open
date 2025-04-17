@@ -13,22 +13,21 @@ const App = () => {
   const [displayNames, setDisplayNames] = useState(persons);
   const [searchInput, setSearchInput] = useState("");
 
-
   useEffect(() => {
-    console.log('effect')
+    console.log("effect");
     serverActions
       .getNotesFromServer()
       .then((response) => {
-        console.log('request successful')
-        console.log(response)
-        setPersons(response.data)
-        setDisplayNames(response.data)
+        console.log("request successful");
+        console.log(response);
+        setPersons(response.data);
+        setDisplayNames(response.data);
       })
-      .catch((error) => console.log(error))
-  }, [])
+      .catch((error) => console.log(error));
+  }, []);
 
-  console.log('db.json retrieved ', persons.length, 'entries');
-  
+  console.log("db.json retrieved ", persons.length, "entries");
+
   const addNoteLocal = () => {
     setPersons((prevPerson) => {
       const newArray = [
@@ -41,36 +40,42 @@ const App = () => {
       setDisplayNames(newArray);
       return newArray;
     });
-  }
-
-  // serverActions
-  //   .deleteNote("ec6d")
-  //   .then(response => console.log(response.data))
-  //   .catch(error => console.log(error))
-
+  };
 
   const addNoteServer = () => {
     const newNoteObj = {
       // id: let browser auto-generate this
       name: newName,
-      number: newPhone, 
-    }
+      number: newPhone,
+    };
 
     serverActions
       .createNote(newNoteObj)
       .then((response) => {
-        console.log(response.data)
-        setPersons((prev) => prev.concat(response.data))
-        setDisplayNames((prev) => prev.concat(response.data))
+        console.log(response.data);
+        setPersons((prev) => prev.concat(response.data));
+        setDisplayNames((prev) => prev.concat(response.data));
       })
-      .catch((error) => console.log(error))
-  }
+      .catch((error) => console.log(error));
+  };
+
+  const deleteNote = (id) => {
+    serverActions
+      .deleteNote(id)
+      .then((response) => {
+        console.log(response.data)
+        const afterDelete = persons.filter(person => person.id !== id)
+        setPersons(afterDelete)
+        setDisplayNames(afterDelete)
+      })
+      .catch((error) => console.log(error));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-      persons.some((existingPerson) => newName === existingPerson.name)
-        ? window.alert(`${newName} is already added to phonebook`)
-        : addNoteServer()
+    persons.some((existingPerson) => newName === existingPerson.name)
+      ? window.alert(`${newName} is already added to phonebook`)
+      : addNoteServer();
     setNewName("");
     setNewPhone("");
   };
@@ -86,9 +91,9 @@ const App = () => {
   };
 
   const lowerSplit = (string) => {
-    const firstLowerThenSplit = string.toLowerCase().split("")
-    return firstLowerThenSplit
-  }
+    const firstLowerThenSplit = string.toLowerCase().split("");
+    return firstLowerThenSplit;
+  };
 
   const handleSearch = (e) => {
     const input = e.target.value;
@@ -119,7 +124,7 @@ const App = () => {
       />
       <Debug newName={newName} newPhone={newPhone} />
       <h2>Numbers</h2>
-      <Numbers persons={displayNames} />
+      <Numbers persons={displayNames} deleteNote={deleteNote} />
     </div>
   );
 };
