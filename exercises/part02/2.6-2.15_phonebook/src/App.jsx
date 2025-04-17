@@ -23,30 +23,41 @@ const App = () => {
         setPersons(response.data)
         setDisplayNames(response.data)
       })
+      .catch((error) => console.log(error))
   }, [])
 
   console.log('db.json retrieved ', persons.length, 'entries');
   
+  const addNoteLocal = () => {
+    setPersons((prevPerson) => {
+      const newArray = [
+        ...prevPerson,
+        {
+          name: newName,
+          number: newPhone,
+        },
+      ];
+      setDisplayNames(newArray);
+      return newArray;
+    });
+  }
+
+  const addNoteServer = () => {
+    axios
+      .post('http://localhost:3001/persons')
+      .then((response) => {
+        console.log(response.data)
+        setPersons((prev) => prev.concat(response.data))
+        setDisplayNames((prev) => prev.concat(response.data))
+      })
+      .catch((error) => console.log(error))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // persons.includes(() => newName)
-    // persons.every((person) => person.name !== newName)
-    newName === "Arto Hellas"
-      ? window.alert(`Arto Hellas is already added to phonebook`)
-      : persons.some((person) => person.name === newName)
-      ? window.alert(`${newName} is already added to phonebook`)
-      : setPersons((prevPerson) => {
-          const newArray = [
-            ...prevPerson,
-            {
-              name: newName,
-              number: newPhone,
-            },
-          ];
-          setDisplayNames(newArray);
-          return newArray;
-        });
+      persons.some((existingPerson) => newName === existingPerson.name)
+        ? window.alert(`${newName} is already added to phonebook`)
+        : addNoteServer()
     setNewName("");
     setNewPhone("");
   };
