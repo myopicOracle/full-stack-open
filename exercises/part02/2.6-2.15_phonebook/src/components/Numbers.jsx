@@ -6,7 +6,6 @@ const Numbers = ({ persons, deleteNote }) => {
           {person.name}
           {person.number ? " - " + person.number : ""}
           <button onClick={() => deleteNote(person.id)}>Delete</button>
-          {/* <button onClick={deleteNote}>Delete</button> */}
         </li>
       ))}
     </ul>

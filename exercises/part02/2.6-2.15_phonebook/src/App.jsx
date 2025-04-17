@@ -59,14 +59,43 @@ const App = () => {
       .catch((error) => console.log(error));
   };
 
+  const updateNumber = () => {
+    window.alert(
+      `${newName} is already added to phonebook, replace the old number with a new one?`
+    );
+
+    const id = persons.find((person) => person.name === newName).id
+    console.log(id);
+
+    const newArray = persons.map((person) =>
+      person.id === id
+        ? {
+            id: person.id,
+            name: person.name,
+            number: newPhone,
+          }
+        : person
+    );
+    console.log(newArray);
+
+    const newNoteObj = newArray.filter(person => person.id === id)
+    console.log(newNoteObj);
+
+    serverActions.changeNote(id, newNoteObj).then((response) => {
+      console.log(response.data);
+      setPersons(newArray);
+      setDisplayNames(newArray);
+    });
+  };
+
   const deleteNote = (id) => {
     serverActions
       .deleteNote(id)
       .then((response) => {
-        console.log(response.data)
-        const afterDelete = persons.filter(person => person.id !== id)
-        setPersons(afterDelete)
-        setDisplayNames(afterDelete)
+        console.log(response.data);
+        const afterDelete = persons.filter((person) => person.id !== id);
+        setPersons(afterDelete);
+        setDisplayNames(afterDelete);
       })
       .catch((error) => console.log(error));
   };
@@ -74,7 +103,7 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     persons.some((existingPerson) => newName === existingPerson.name)
-      ? window.alert(`${newName} is already added to phonebook`)
+      ? updateNumber()
       : addNoteServer();
     setNewName("");
     setNewPhone("");
