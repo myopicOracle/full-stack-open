@@ -61,6 +61,11 @@ const App = () => {
     setNewPhone(input);
   };
 
+  const lowerSplit = (string) => {
+    const firstLowerThenSplit = string.toLowerCase().split("")
+    return firstLowerThenSplit
+  }
+
   const handleSearch = (e) => {
     const input = e.target.value;
     console.log(input);

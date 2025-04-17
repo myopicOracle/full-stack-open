@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios'
 import Note from "./components/Note";
-import noteService from './services/notes'
 
 
 const App = () => {
@@ -13,10 +12,11 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    noteService
-      .getAll()
+    axios
+      .get('http://localhost:3001/notes')
       .then(response => {
-        setNotes(response)
+        console.log('promise fulfilled')
+        setNotes(response.data)
       })
   }, [])
   console.log('render', notes.length, 'notes')
@@ -34,14 +34,11 @@ const App = () => {
       "content": contentVal,
       "important": importanceVal
     }
-    
-    noteService
-      .create(newNoteObject)
-      .then(response => {
-        setNotes(notes.concat(response))
-        setContentVal("");
-        setImportanceVal("");
-      })
+    axios
+      .post('http://localhost:3001/persons', newNoteObject)
+      .then(response => console.log(response))
+    setContentVal("");
+    setImportanceVal("");
   };
 
   const handleContent = (e) => {
@@ -56,26 +53,38 @@ const App = () => {
   };
 
   const toggleImportance = (id) => {
-    const note = notes.find(n => n.id === id)
-    const changedNote = { ...note, important: !note.important }
-    
+    const url = `http://localhost:3001/notes/${id}`
+    const note = notes.find(note => note.id === id)
+    const changedNote = {
+      ...note,
+      important: !note.important
+    }
+
     console.log(`You toggled me! My id is -- ${id}`);
     console.log(`I used to be '${note.important}', but now I'm '${changedNote.important}'`);
 
-    noteService
-      .update(id, changedNote)
-      .then(response => {
-        setNotes(notes.map(note => note.id === id ? response : note))
-      })
-      .catch(error => {
-        alert(
-          `the note '${note.content}' was already deleted from server`
-        )
-        setNotes(notes.filter(n => n.id !== id))
-      })
+    axios.put(url, changedNote).then((response) => {
+      console.log('The raw PUT response is ', response, 'data is', response.data)
+      // console.log(`The raw PUT response is ${response}, data is ${response.date}`);      
+
+      setNotes(notes.map((note) => (
+        note.id === id ? response.data : note
+      )))
+    })
+
   }
 
-  // RETURN BELOW
+  // const toggleImportance = (handlerId) => {
+  //   console.log('The importance of ', handlerId, 'needs toggling')
+  //   const toggledNotes = notes.map((note) => {
+  //     console.log('note.id: ', note.id)
+  //     console.log('handlerId: ', handlerId)
+  //     return (note.id === handlerId)
+  //       ? (note.important = !note.important)
+  //       : note
+  //   })
+  //   setNotes(toggledNotes)
+  // }
 
   return (
     <div
