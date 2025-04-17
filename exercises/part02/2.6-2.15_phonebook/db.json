@@ -14,9 +14,12 @@
       "number": "ser2345"
     },
     {
-      "id": "59f5",
-      "name": "serg",
-      "number": ""
+      "0": {
+        "id": "59f5",
+        "name": "serg",
+        "number": "00000"
+      },
+      "id": "59f5"
     },
     {
       "0": {

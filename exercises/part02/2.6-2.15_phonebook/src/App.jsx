@@ -70,8 +70,7 @@ const App = () => {
     const newArray = persons.map((person) =>
       person.id === id
         ? {
-            id: person.id,
-            name: person.name,
+            ...person,
             number: newPhone,
           }
         : person
