@@ -60,6 +60,13 @@ app.get("/api/persons/:id", (req, res) => {
   
 })
 
+// 3.4: Phonebook backend step 4
+app.delete("/api/persons/:id", (req, res) => {
+  const id = req.params.id
+  const updatedBody = body.filter(dude => dude.id !== id)
+  res.json(updatedBody)
+})
+
 
 const PORT = 3001
 app.listen(3001)
