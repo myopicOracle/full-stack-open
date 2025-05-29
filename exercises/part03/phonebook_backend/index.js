@@ -1,7 +1,7 @@
 import express from 'express'
 
 const app = express()
-
+app.use(express.json())
 
 let body = [
     { 
@@ -66,6 +66,26 @@ app.delete("/api/persons/:id", (req, res) => {
   const updatedBody = body.filter(dude => dude.id !== id)
   res.json(updatedBody)
 })
+
+// 3.5: Phonebook backend step 5
+app.post("/api/persons", (req, res) => {
+  const generateId = () => Math.random() * 100
+
+  const { name, number } = req.body
+
+  const newPerson = {
+    id: generateId(),
+    name: name, 
+    number: number
+  }
+
+  const updatedBody = body.concat(newPerson)
+
+  res.json(updatedBody)
+})
+
+// 3.6: Phonebook backend step 6
+
 
 
 const PORT = 3001
