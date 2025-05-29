@@ -67,7 +67,7 @@ app.delete("/api/persons/:id", (req, res) => {
   res.json(updatedBody)
 })
 
-// 3.5: Phonebook backend step 5
+// 3.5: Phonebook backend step 5 && 3.6: Phonebook backend step 6
 app.post("/api/persons", (req, res) => {
   const generateId = () => Math.random() * 100
 
@@ -81,11 +81,12 @@ app.post("/api/persons", (req, res) => {
 
   const updatedBody = body.concat(newPerson)
 
-  res.json(updatedBody)
+  if ( !name || !number || body.some(dude => dude.name === name )) {
+    res.status(404).end()
+  } else {
+    res.json(updatedBody)
+  }
 })
-
-// 3.6: Phonebook backend step 6
-
 
 
 const PORT = 3001
